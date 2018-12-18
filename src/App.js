@@ -1,28 +1,20 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import BrachOffices from './pages/BranchOffices';
+import Users from './pages/Users';
+import Measures from './pages/Measures';
+import PrintingOptions from './pages/PrintingOptions';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
-
+const App = () => (
+  <main>
+      <Switch>
+      <Route exact path="/" component={Login} />
+      <Route exact path="/administrador/usuarios" component={Users}/>
+      <Route exact path="/administrador/sucursales" component={BrachOffices}/>
+      <Route exact path="/administrador/medidas" component={Measures}/>
+      <Route exact path="/administrador/opciones-impresion" component={PrintingOptions}/>
+      </Switch>
+  </main>
+);
 export default App;
