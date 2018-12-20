@@ -99,10 +99,7 @@ class ModalBranchOfficesUpdated extends Component {
             Editar Sucursal
           </DialogTitle>
           <DialogContent>
-            <div className="d-flex justify-content-between">
-              <div style={{ width: '50%' }}>
-
-              </div>
+            <div className="d-flex justify-content-center">
               <div style={{ width: '50%' }}>
                 <TextField
                   autoFocus

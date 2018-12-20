@@ -5,6 +5,7 @@ import BrachOffices from './pages/BranchOffices';
 import Users from './pages/Users';
 import Measures from './pages/Measures';
 import PrintingOptions from './pages/PrintingOptions';
+import Products from './pages/Products';
 
 const App = () => (
   <main>
@@ -14,6 +15,7 @@ const App = () => (
       <Route exact path="/administrador/sucursales" component={BrachOffices}/>
       <Route exact path="/administrador/medidas" component={Measures}/>
       <Route exact path="/administrador/opciones-impresion" component={PrintingOptions}/>
+      <Route exact path="/administrador/productos" component={Products}/>
       </Switch>
   </main>
 );

@@ -5,9 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Configuration from '../Configuration';
-import '../styles/Login.css';
-
 import { Redirect } from 'react-router-dom';
+import '../index.css';
+
 
 class Login extends Component {
   constructor() {
@@ -69,64 +69,57 @@ class Login extends Component {
     }
 
     return (
-      <div >
-       
-          <br />
-          <br />
-          <div className="d-flex justify-content-center">
-            <Card style={{ width: '40%', height: '100%' }}>
-              <div className="justify-content-center" style={{ marginLeft: "35%", marginTop: '10%' }} >
+      <div className="bg">
+        <br />
+        <br />
+        <div className="d-flex justify-content-center">
+          <Card style={{ width: '40%', height: '100%' }}>
+            <div className="justify-content-center" style={{ marginLeft: "35%", marginTop: '10%' }} >
 
-                <img src={require('../images/macrofoto logo .jpeg')} alt="Foto" style={{ width: '50%', height: '50%' }} />
-              </div>
+              <img src={require('../images/macrofoto logo .jpeg')} alt="Foto" style={{ width: '50%', height: '50%' }} />
+            </div>
+            <div className="d-flex justify-content-center flex-wrap">
+              <CardContent >
+                <TextField
+                  id="outlined-name"
+                  label="Usuario"
+                  value={this.state.name}
+                  onChange={this.handleUsername}
+                  margin="normal"
+                  fullWidth
 
-              <div className="d-flex justify-content-center flex-wrap">
-                <CardContent >
+                />
+                <br />
+                <TextField
+                  id="standard-password-input"
+                  type="password"
+                  label="Contraseña"
+                  value={this.state.name}
+                  onChange={this.handlePassword}
+                  margin="normal"
+                  fullWidth
 
+                />
+              </CardContent>
+            </div  >
+            <br />
+            <br />
 
-                  <TextField
-                    id="outlined-name"
-                    label="Usuario"
-                    value={this.state.name}
-                    onChange={this.handleUsername}
-                    margin="normal"
-                    fullWidth
-
-                  />
-                  <br />
-                  <TextField
-                    id="standard-password-input"
-                    type="password"
-                    label="Contraseña"
-                    value={this.state.name}
-                    onChange={this.handlePassword}
-                    margin="normal"
-                    fullWidth
-
-                  />
-                </CardContent>
-              </div  >
-              <br />
-              <br />
-
-              <div className="d-flex justify-content-center flex-wrap">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleSubmit}
-                >
-                  Acceder
+            <div className="d-flex justify-content-center flex-wrap">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleSubmit}
+              >
+                Acceder
               </Button>
-              </div>
+            </div>
 
-              <br />
-            </Card>
-          </div  >
-        </div>
+            <br />
+          </Card>
+        </div  >
+      </div>
     );
   }
 }
-
-
-
 export default Login;

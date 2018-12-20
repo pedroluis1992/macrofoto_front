@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../styles/BranchOffice.css'
 import axios from 'axios';
 import IntegratedCard from '../components/IntegratedCard';
 import Configuration from '../Configuration';

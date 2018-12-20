@@ -55,31 +55,31 @@ const DialogActions = withStyles(theme => ({
 
 class ModalBranchOffices extends Component {
 
-  constructor(){
+  constructor() {
     super()
-    this.state = {branches:{}}
+    this.state = { branches: {} }
     this.onChangeName = this.onChangeName.bind(this);
-    this.OnChangeAddress = this.OnChangeAddress.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
     this.setProp = this.setProp.bind(this);
     this.onChangeSave = this.onChangeSave.bind(this);
   }
 
-  onChangeSave(){
+  onChangeSave() {
     this.props.save(this.state.branches)
   }
 
-  onChangeName(event){
+  onChangeName(event) {
     this.setProp('name', event.target.value)
   }
 
-  OnChangeAddress(event){
+  onChangeAddress(event) {
     this.setProp('address', event.target.value)
   }
 
   setProp(prop, value) {
     let req = this.state.branches;
     req[prop] = value;
-    this.setState({branches: req});
+    this.setState({ branches: req });
   }
   render() {
     return (
@@ -94,34 +94,36 @@ class ModalBranchOffices extends Component {
             Crear Sucursal
           </DialogTitle>
           <DialogContent>
-           
-              <div style={{ width: '100%' }}>
+
+            <div className="d-flex justify-content-center">
+              <div style={{ width: '50%' }}>
                 <TextField
                   autoFocus
                   margin="dense"
                   id="name"
                   label="Nombre"
                   type="email"
-                  onChange={this.OnChangeAddress}
+                  onChange={this.onChangeName}
                   fullWidth
                 />
                 <br />
                 <TextField
                   id="outlined-name"
                   label="Direccion"
-                  onChange={this.onChangeName}
+                  onChange={this.onChangeAddress}
                   margin="normal"
                   fullWidth
                 />
               </div>
-              <br/>
+            </div>
+            <br />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleClose} color="primary">
               Cerrar
             </Button>
             <Button onClick={this.onChangeSave} calor="primary">
-                Guardar
+              Guardar
               </Button>
           </DialogActions>
         </Dialog>

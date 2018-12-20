@@ -4,26 +4,30 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
-
 
 const styles = theme => ({
   card: {
-    width: '300px',
-    height: '90%',
-    margin: '5%'
+    width: '320px',
+    height: '120px',
+    margin: '5%',
+    overflow: 'visible'
+
   },
   content: {
-    width: '90%',
+    width: '60%',
     height: '100%'
   },
   details: {
-    height: '60%'
+    height: '30%'
   },
   cover: {
-    width: 151,
+    width: '151',
   },
+  icon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 class BasicCard extends Component {
@@ -33,26 +37,25 @@ class BasicCard extends Component {
     return (
       <div>
         <Card className={classes.card} >
-          <div className={classes.details}>
-        
-              <CardContent className={classes.content}>
-                <Typography component="h5" variant="h5">
-                  {this.props.title}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {this.props.description}
-                </Typography>
-              </CardContent>
-              <CardMedia
-                className={classes.cover}
-                image={this.props.image}
-              />
+          <div className="d-flex justify-content-between">
+            <div className={classes.content} >
+              <div className="d-flex justify-content-between">
+                <CardContent>
+                  <h6>
+                    {this.props.title}
+                  </h6>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {this.props.description}
+                  </Typography>
+                </CardContent>
+                <div >
+                  {this.props.button}
+                </div>
+              </div>
             </div>
-       
-          <div className={{ marginBottom: '1px' }}>
-            <CardActions className={classes.cardOptions}>
-              {this.props.button}
-            </CardActions>
+            <div style={{ width: '40%', height: '120px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
+              {this.props.icon}
+            </div>
           </div>
         </Card>
       </div>
