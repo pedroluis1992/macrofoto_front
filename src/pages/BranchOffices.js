@@ -2,34 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Configuration from '../Configuration';
 import BasicCard from '../components/BasicCard';
-import AddIcon from '@material-ui/icons/Add';
 import ModalBranchOffices from '../components/branchOffices/ModalBranchOffices';
 import ModalBranchOfficesUpdated from '../components/branchOffices/ModalBranchOfficesUpdated';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Home from '@material-ui/icons/Home';
-import { IconButton } from '@material-ui/core';
 import MiniDrawer from '../components/MiniDrawer';
-import Grid from '@material-ui/core/Grid';
+import ButtonAdd from '../components/ButtonAdd';
 
-
-const styles = {
-    add: {
-        width: '60px',
-        height: '60px',
-        position: 'fixed',
-        bottom: '20px',
-        right: '30px',
-        Zindex: '99',
-        fonTsize: '18px',
-        border: 'none',
-        outline: 'none',
-        backgroundColor: '#ff1744',
-        color: 'white',
-        cursor: 'pointer',
-        padding: '15px',
-        borderRadius: '50%'
-    }
-}
 class BranchOffices extends Component {
     constructor() {
         super();
@@ -120,42 +98,31 @@ class BranchOffices extends Component {
     render() {
 
         const BranchOffices = this.state.branchOffices.map(branchOffice => {
+            const options = [
+                { title: "Editar", onClick: () => this.handleOpenEditModal(branchOffice) },
+                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.handleStatus(branchOffice) },
+            ]
             return (
                 <BasicCard
                     key={branchOffice.id}
                     title={branchOffice.name}
                     description={branchOffice.address}
                     icon={<Home style={{ height: '55%', width: '55%', color: 'white' }} />}
-                    button={
-                        <div class="dropdown">
-                            <IconButton type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <MoreVertIcon />
-                            </IconButton>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button className="dropdown-item" onClick={() => { this.handleOpenEditModal(branchOffice) }} style={{ marginRight: '5px' }}>Editar</button>
-                                <button className="dropdown-item" onClick={() => { this.handleStatus(branchOffice) }} style={{ marginRight: '5px' }}>Estatus</button>
-                                <button class="dropdown-item" href="#">Eliminar</button>
-                            </div>
-                        </div>
-                    }
+                    options={options}
                 />
             );
         })
         return (
             <MiniDrawer
                 title={<img style={{ height: '60px' }} src={require('../images/macrofoto logo .jpeg')} alt={"Logo"} />}
-                icon={<img style={{  height: '50px', marginRight: '32px', borderRadius: '50%' }} src={require('../images/descarga.jpeg')} alt={"Imagen usuario"} />}
+                icon={<img style={{ height: '50px', marginRight: '32px', borderRadius: '50%' }} src={require('../images/descarga.jpeg')} alt={"Imagen usuario"} />}
                 main={
-                    <div style={{marginTop: "5%"}} className="d-flex justify-content-between flex-wrap">
-                            {BranchOffices}
-                   
-               
+                    <div style={{ marginTop: "5%" }} className="d-flex justify-content-between flex-wrap">
+                        {BranchOffices}
                         <br />
                         <br />
                         <div className="d-flex justify-content-end flex-wrap">
-                            <button style={styles.add} onClick={this.handleSubmit} >
-                                <AddIcon />
-                            </button>
+                            <ButtonAdd submit={this.handleSubmit} />
                         </div>
                         <ModalBranchOffices save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
                         <ModalBranchOfficesUpdated save={this.handleUpdate} record={this.state.currentBranch} open={this.state.openUpdated} close={this.state.closeUpdated} handleClose={this.handleCloseUpdated} />

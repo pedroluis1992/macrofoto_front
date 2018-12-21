@@ -1,4 +1,4 @@
 const Configuration = {
-  apiServer: 'http://localhost:4000',
+  apiServer: 'http://192.168.0.10:4000',
 }
 export default Configuration;
