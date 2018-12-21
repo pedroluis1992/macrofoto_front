@@ -118,24 +118,17 @@ class BranchOffices extends Component {
     render() {
 
         const BranchOffices = this.state.branchOffices.map(branchOffice => {
+            const options = [
+                { title: "Editar", onClick: () => this.handleOpenEditModal(branchOffice) },
+                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.handleStatus(branchOffice) },
+            ]
             return (
                 <BasicCard
                     key={branchOffice.id}
                     title={branchOffice.name}
                     description={branchOffice.address}
                     icon={<Home style={{ height: '55%', width: '55%', color: 'white' }} />}
-                    button={
-                        <div class="dropdown">
-                            <IconButton type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <MoreVertIcon />
-                            </IconButton>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <button className="dropdown-item" onClick={() => { this.handleOpenEditModal(branchOffice) }} style={{ marginRight: '5px' }}>Editar</button>
-                                <button className="dropdown-item" onClick={() => { this.handleStatus(branchOffice) }} style={{ marginRight: '5px' }}>Estatus</button>
-                                <button class="dropdown-item" href="#">Eliminar</button>
-                            </div>
-                        </div>
-                    }
+                    options={options}
                 />
             );
         })

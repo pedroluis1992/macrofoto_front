@@ -4,66 +4,80 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import MenuTest from './FadeMenu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
 
 const styles = theme => ({
-  card: {
-    width: '320px',
-    height: '120px',
-    margin: '5%',
-    overflow: 'visible'
-
-  },
-  content: {
-    width: '60%',
-    height: '100%'
-  },
-  details: {
-    height: '30%'
-  },
-  cover: {
-    width: '151',
-  },
-  icon: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
+    card: {
+        width: '320px',
+        height: '120px',
+        margin: '5%',
+    },
+    content: {
+        width: '60%',
+        height: '100%'
+    },
+    details: {
+        height: '30%'
+    },
+    cover: {
+        width: '151',
+    },
+    icon: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
 
-class BasicCard extends Component {
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Card className={classes.card} >
-          <div className="d-flex justify-content-between">
-            <div className={classes.content} >
-              <div className="d-flex justify-content-between">
-                <CardContent>
-                  <h6>
-                    {this.props.title}
-                  </h6>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {this.props.description}
-                  </Typography>
-                </CardContent>
-                <div >
-                  {this.props.button}
-                </div>
-              </div>
+class BasicCard extends Component {
+    
+    onMenuClick = onClick => {
+        if (this.menu) {
+            this.menu.handleClose();
+            onClick();
+        }
+    }
+    
+    render() {
+        const { classes, options } = this.props;
+        return (
+            <div>
+                <Card className={classes.card} >
+                    <div className="d-flex justify-content-between">
+                        <div className={classes.content} >
+                            <div className="d-flex justify-content-between">
+                                <CardContent>
+                                    <h6>
+                                        {this.props.title}
+                                    </h6>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                        {this.props.description}
+                                    </Typography>
+                                </CardContent>
+                                <MenuTest ref={ref => this.menu = ref} >
+                                    {
+                                        options.map(option => (
+                                            <MenuItem onClick={ () => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
+                                        ))
+                                    }
+                                </MenuTest>
+                            </div>
+                        </div>
+                        <div style={{ width: '40%', height: '120px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
+                            {this.props.icon}
+                        </div>
+                    </div>
+                </Card>
             </div>
-            <div style={{ width: '40%', height: '120px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
-              {this.props.icon}
-            </div>
-          </div>
-        </Card>
-      </div>
-    );
-  }
+        );
+    }
 }
 BasicCard.PropTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(BasicCard);
