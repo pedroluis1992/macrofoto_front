@@ -9,6 +9,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Home from '@material-ui/icons/Home';
 import { IconButton } from '@material-ui/core';
 import MiniDrawer from '../components/MiniDrawer';
+import Grid from '@material-ui/core/Grid';
+
 
 const styles = {
     add: {
@@ -144,10 +146,10 @@ class BranchOffices extends Component {
                 title={<img style={{ height: '60px' }} src={require('../images/macrofoto logo .jpeg')} alt={"Logo"} />}
                 icon={<img style={{  height: '50px', marginRight: '32px', borderRadius: '50%' }} src={require('../images/descarga.jpeg')} alt={"Imagen usuario"} />}
                 main={
-                    <div className="container" style={{ marginTop: '7%', marginRight: '6%' }}>
-                        <div className="d-flex justify-content-between flex-wrap">
+                    <div style={{marginTop: "5%"}} className="d-flex justify-content-between flex-wrap">
                             {BranchOffices}
-                        </div>
+                   
+               
                         <br />
                         <br />
                         <div className="d-flex justify-content-end flex-wrap">

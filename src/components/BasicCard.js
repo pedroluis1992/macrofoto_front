@@ -9,7 +9,7 @@ const styles = theme => ({
   card: {
     width: '320px',
     height: '120px',
-    margin: '5%',
+    margin: '32px',
     overflow: 'visible'
 
   },
