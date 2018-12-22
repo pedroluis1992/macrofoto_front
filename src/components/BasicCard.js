@@ -54,7 +54,7 @@ class BasicCard extends Component {
                                         {this.props.title}
                                     </h6>
                                 
-                                    <Typography  class="d-flex align-items-stretch"  variant="subtitle1" color="textSecondary">
+                                    <Typography variant="subtitle1" color="textSecondary">
                                         {this.props.description}
                                     </Typography>
                             
