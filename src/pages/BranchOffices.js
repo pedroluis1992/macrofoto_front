@@ -7,6 +7,7 @@ import ModalBranchOfficesUpdated from '../components/branchOffices/ModalBranchOf
 import Home from '@material-ui/icons/Home';
 import MiniDrawer from '../components/MiniDrawer';
 import ButtonAdd from '../components/ButtonAdd';
+import AlertDialog from '../components/AlertDialog';
 
 class BranchOffices extends Component {
     constructor() {
@@ -53,7 +54,6 @@ class BranchOffices extends Component {
 
 
     handleSave(params) {
-        console.log(params)
         axios.post(`${Configuration.apiServer}/api/v1/admin/branches`, params, { headers: this.headers })
             .then(response => {
                 console.log(response)
@@ -68,14 +68,13 @@ class BranchOffices extends Component {
     }
 
     handleUpdate(params) {
-
+        console.log(params, "params")
         axios.put(`${Configuration.apiServer}/api/v1/admin/branches/${this.state.currentBranch.id}`, params, { headers: this.headers })
             .then(response => {
                 console.log(response)
                 if (response.data.status === 'ok') {
                     this.setState({ openUpdated: false })
                     this.getBranchOffices();
-                    alert("Sea modificado una sucursal con exito")
                 }
             }).catch(error => {
                 console.log(error)
@@ -95,12 +94,19 @@ class BranchOffices extends Component {
             })
     }
 
+    openConfirmDialog(data) {
+        if (this.dialog) {
+            this.dialog.handleClickOpen();
+            this.dialog.data = data;
+        }
+    }
+
     render() {
 
         const BranchOffices = this.state.branchOffices.map(branchOffice => {
             const options = [
                 { title: "Editar", onClick: () => this.handleOpenEditModal(branchOffice) },
-                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.handleStatus(branchOffice) },
+                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.openConfirmDialog(branchOffice) },
             ]
             return (
                 <BasicCard
@@ -126,6 +132,23 @@ class BranchOffices extends Component {
                         </div>
                         <ModalBranchOffices save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
                         <ModalBranchOfficesUpdated save={this.handleUpdate} record={this.state.currentBranch} open={this.state.openUpdated} close={this.state.closeUpdated} handleClose={this.handleCloseUpdated} />
+                        <AlertDialog
+                            ref={ ref => this.dialog = ref }
+                            title="¿Estás seguro?"
+                            text="Vas a cambiar el status de esta sucursal, una vez desactivada, los usuarios no podrán verla"
+                            buttons={[
+                                { title: "Aceptar", onPress: () => this.handleStatus(this.dialog.data) },
+                                { title: "Cancelar", onPress: () => this.dialog.handleClose() }
+                            ]}
+                        />
+                        <AlertDialog
+                            ref={ ref => this.notification = ref }
+                            title="¡Listo!"
+                            text="Actualizaste la información de la sucursal"
+                            buttons={[
+                                { title: "Ok", onPress: () => this.dialog.handleClose() },
+                            ]}
+                        />
                     </div>
                 }
             />

@@ -50,11 +50,11 @@ class BasicCard extends Component {
                             <div className="d-flex justify-content-between">
 
                                 <CardContent style={{padding: '15px'}}>
-                                    <h6  >
+                                    <h6>
                                         {this.props.title}
                                     </h6>
                                 
-                                    <Typography variant="subtitle1" color="textSecondary">
+                                    <Typography variant="subtitle2" color="textSecondary">
                                         {this.props.description}
                                     </Typography>
                             
