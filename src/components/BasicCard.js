@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 const styles = theme => ({
     card: {
         width: '320px',
-        height: '130px',
+        height: '155px',
         margin: '32px',
     },
     content: {
@@ -27,7 +27,7 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 });
 
 
@@ -48,24 +48,27 @@ class BasicCard extends Component {
                     <div className="d-flex justify-content-between">
                         <div className={classes.content} >
                             <div className="d-flex justify-content-between">
-                                <CardContent>
-                                    <h6>
+
+                                <CardContent style={{padding: '15px'}}>
+                                    <h6  >
                                         {this.props.title}
                                     </h6>
-                                    <Typography variant="subtitle1" color="textSecondary">
+                                
+                                    <Typography  class="d-flex align-items-stretch"  variant="subtitle1" color="textSecondary">
                                         {this.props.description}
                                     </Typography>
+                            
                                 </CardContent>
                                 <MenuTest ref={ref => this.menu = ref} >
                                     {
                                         options.map(option => (
                                             <MenuItem onClick={ () => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
-                                        ))
+                                            ))
                                     }
                                 </MenuTest>
                             </div>
                         </div>
-                        <div style={{ width: '40%', height: '130px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
+                        <div style={{ width: '40%', height: '155px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
                             {this.props.icon}
                         </div>
                     </div>

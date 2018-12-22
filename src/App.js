@@ -6,6 +6,7 @@ import Users from './pages/Users';
 import Measures from './pages/Measures';
 import PrintingOptions from './pages/PrintingOptions';
 import Products from './pages/Products';
+import Categories from './pages/Categories';
 
 const App = () => (
   <main>
@@ -16,6 +17,7 @@ const App = () => (
       <Route exact path="/administrador/medidas" component={Measures}/>
       <Route exact path="/administrador/opciones-impresion" component={PrintingOptions}/>
       <Route exact path="/administrador/productos" component={Products}/>
+      <Route exact path="/administrador/categorias" component={Categories}/>
       </Switch>
   </main>
 );

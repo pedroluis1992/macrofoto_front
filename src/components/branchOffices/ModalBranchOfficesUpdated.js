@@ -71,6 +71,7 @@ class ModalBranchOfficesUpdated extends Component {
     this.setProp('address', this.state.address === '' ? this.props.record.address  : this.state.address)
 
     this.props.save(this.state.branches)
+    this.setState({branches: {}})
   }
 
   onChangeName(event) {
@@ -107,16 +108,16 @@ class ModalBranchOfficesUpdated extends Component {
                   id="name"
                   label="Direccion"
                   type="email"
-                  defaultValue={this.props.record ? this.props.record.address : ""}
-                  onChange={this.OnChangeAddress}
+                  defaultValue={this.props.record ? this.props.record.name : ""}
+                  onChange={this.onChangeName}
                   fullWidth
                 />
                 <br />
                 <TextField
                   id="outlined-name"
                   label="Nombre"
-                  defaultValue={this.props.record ? this.props.record.name : ""}
-                  onChange={this.onChangeName}
+                  defaultValue={this.props.record ? this.props.record.address : ""}
+                  onChange={this.OnChangeAddress}
                   margin="normal"
                   fullWidth
                 />
