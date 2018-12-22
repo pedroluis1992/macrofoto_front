@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Configuration from '../Configuration';
 import BasicCard from '../components/BasicCard';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import { Straighten } from '@material-ui/icons';
 import ModalMeasures from '../components/measures/ModalMeasures';
 import ModalMeasuresUpdated from '../components/measures/ModalMeasuresUpdated';
 import MiniDrawer from '../components/MiniDrawer';
@@ -43,7 +42,7 @@ class Measures extends Component {
     };
 
     handleClose() {
-        this.setState({ open: false });
+        this.setState({ open: false, openUpdated: false });
     };
 
     handleOpenEditModal(params) {
@@ -89,12 +88,25 @@ class Measures extends Component {
         }
     }
 
+
+    handleDelete = async measure => {
+        try {
+            const { data } = await axios.delete(`${Configuration.apiServer}/api/v1/admin/measures/${measure.id}`, { headers: this.headers } );
+            if (data.status === "ok") {
+                this.getMeasures()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     render() {
 
         const measures = this.state.measures.map(measure => {
             const options = [
                 { title: "Editar", onClick: () => this.handleOpenEditModal(measure) },
                 { title: `${measure.status ? "Desactivar" : "Activar"} medida`, onClick: () => this.handleStatus(measure) },
+                { title: "Eliminar", onClick: () => this.handleDelete(measure) }
             ]
             return (
                 <BasicCard
@@ -102,6 +114,7 @@ class Measures extends Component {
                     title={`Medida`}
                     description={`${measure.width} W X ${measure.height} H`}
                     options={options}
+                    icon={<Straighten style={{ height: '55%', width: '55%', color: 'white' }} />}
                 />
             );
         })
@@ -119,7 +132,12 @@ class Measures extends Component {
                         <ButtonAdd submit={this.handleClickOpen} />
 
                         <ModalMeasures save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
-                        <ModalMeasuresUpdated save={this.handleUpdated} record={this.state.currentMeasure} open={this.state.openUpdated} close={this.state.close} handleClose={this.handleClose} />
+                        <ModalMeasuresUpdated
+                            save={this.handleUpdated}
+                            record={this.state.currentMeasure}
+                            open={this.state.openUpdated}
+                            handleClose={this.handleClose}
+                        />
                     </div>
                 }
             />
