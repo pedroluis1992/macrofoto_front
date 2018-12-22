@@ -114,7 +114,7 @@ class ModalPhotoSettings extends Component {
                         <Button onClick={this.props.handleClose} color="primary">
                             Cerrar
                         </Button>
-                        <Button onClick={this.onHandleSave} calor="primary">
+                        <Button onClick={this.onHandleSave} color="primary">
                             Guardar
                         </Button>
                     </DialogActions>

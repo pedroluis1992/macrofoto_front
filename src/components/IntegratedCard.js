@@ -16,114 +16,114 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 
 const styles = theme => ({
-  card: {
-    width: '300px',
-    margin: '32px',
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%',
-  },
-  actions: {
-    display: 'flex',
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: -8,
+    card: {
+        width: '380px',
+        margin: '32px',
     },
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+    media: {
+        height: 0,
+        paddingTop: '56.25%',
+    },
+    actions: {
+        display: 'flex',
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+        marginLeft: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            marginRight: -8,
+        },
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
 });
 
 class IntegratedCard extends Component {
-  
-  onMenuClick = onClick => {
-    if (this.menu) {
-        this.menu.handleClose();
-        onClick();
+
+    onMenuClick = onClick => {
+        if (this.menu) {
+            this.menu.handleClose();
+            onClick();
+        }
     }
-  }
 
-  constructor() {
-    super()
+    constructor() {
+        super()
 
-    this.state = { expanded: false }
-  }
+        this.state = { expanded: false }
+    }
 
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
+    handleExpandClick = () => {
+        this.setState(state => ({ expanded: !state.expanded }));
+    };
 
-  render() {
-    const { classes, options } = this.props;
-    return (
-      <Card className={classes.card}>
-        {
-          this.props.cardHeader === true ?
-            <CardHeader
-              avatar={
-                <Avatar aria-label="Recipe" className={classes.avatar}>
-                  {this.props.avatar}
-                </Avatar>
-              }
-              action={
-                <MenuTest ref={ref => this.menu = ref} >
-                  {
-                    options.map(option => (
-                      <MenuItem onClick={() => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
-                    ))
-                  }
-                </MenuTest>
-              }
-              title={this.props.title}
-              subheader={this.props.subheader}
-            />
-            : null
-        }
-        {
-          this.props.cardImage === true ?
-            <CardMedia
-              className={classes.media}
-              image={this.props.image}
-              title={this.props.name}
-            />
-            : null
-        }
-        {
-          this.props.cardfooter === true ?
-            <div>
-              <CardContent>
-                <Typography component="p">
-                  {this.props.content}
-                </Typography>
-              </CardContent>
-              <CardActions className={classes.actions} style={{ marginBottom: '10%' }} >
-                {/* <div style={{ marginLeft: '30%' }}>
+    render() {
+        const { classes, options } = this.props;
+        return (
+            <Card className={classes.card}>
+                {
+                    this.props.cardHeader === true ?
+                        <CardHeader
+                            avatar={
+                                <Avatar aria-label="Recipe" className={classes.avatar}>
+                                    {this.props.avatar}
+                                </Avatar>
+                            }
+                            action={
+                                <MenuTest ref={ref => this.menu = ref} >
+                                    {
+                                        options && options.map(option => (
+                                            <MenuItem onClick={() => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
+                                        ))
+                                    }
+                                </MenuTest>
+                            }
+                            title={this.props.title}
+                            subheader={this.props.subheader}
+                        />
+                        : null
+                }
+                {
+                    this.props.cardImage === true ?
+                        <CardMedia
+                            className={classes.media}
+                            image={this.props.image}
+                            title={this.props.name}
+                        />
+                        : null
+                }
+                {
+                    this.props.cardfooter === true ?
+                        <div>
+                            <CardContent>
+                                <Typography component="p">
+                                    {this.props.content}
+                                </Typography>
+                            </CardContent>
+                            <CardActions className={classes.actions} style={{ marginBottom: '10%' }} >
+                                {/* <div style={{ marginLeft: '30%' }}>
                   <Button variant="contained" color="secondary" className={classes.button}>
                     Opciones
                     </Button>
                 </div> */}
-              </CardActions>
-            </div>
-            : null
-        }
-      </Card>
-    );
-  }
+                            </CardActions>
+                        </div>
+                        : null
+                }
+            </Card>
+        );
+    }
 }
 
 IntegratedCard.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(IntegratedCard);
