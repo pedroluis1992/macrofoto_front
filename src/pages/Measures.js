@@ -6,123 +6,125 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import ModalMeasures from '../components/measures/ModalMeasures';
 import ModalMeasuresUpdated from '../components/measures/ModalMeasuresUpdated';
+import MiniDrawer from '../components/MiniDrawer';
+import ButtonAdd from '../components/ButtonAdd'
 
 
 class Measures extends Component {
-  constructor() {
-    super();
-    this.state = { measures: [], open: false, openUpdated: false, currentMeasure:'' }
-    this.headers = { 'Authorization': `JWT ${localStorage.getItem('macrofoto:token')}` };
-    this.handleClickOpen = this.handleClickOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleUpdated = this.handleUpdated.bind(this);
-  }
+    constructor() {
+        super();
+        this.state = { measures: [], open: false, openUpdated: false, currentMeasure: '' }
+        this.headers = { 'Authorization': `JWT ${localStorage.getItem('macrofoto:token')}` };
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.handleUpdated = this.handleUpdated.bind(this);
+    }
 
-  componentDidMount() {
-    this.getMeasures();
-  }
-
-  getMeasures() {
-    axios.get(`${Configuration.apiServer}/api/v1/admin/measures`, { headers: this.headers })
-      .then(response => {
-        if ('measures' in response.data) {
-          this.setState({ measures: response.data.measures })
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-  }
-
-  handleClickOpen = () => {
-    this.setState({
-      open: true,
-    });
-  };
-
-  handleClose() {
-    this.setState({ open: false });
-  };
-
-  handleOpenEditModal(params){
-    this.setState({ openUpdated: true, currentMeasure: params})
-  }
-
-
-  handleSave(params) {
-    axios.post(`${Configuration.apiServer}/api/v1/admin/measures`, params, { headers: this.headers })
-      .then(response => {
-        if (response.data.status === 'ok') {
-          this.getMeasures();
-          this.setState({ open: false })
-          alert("Sea creado una medida con exito")
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-  }
-
-  handleUpdated(params){
-    console.log()
-    axios.put(`${Configuration.apiServer}/api/v1/admin/measures/${this.state.currentMeasure.id}`, params, { headers: this.headers })
-    .then(response => {
-      console.log(response)
-      if (response.data.status === 'ok') {
-        this.setState({ openUpdated: false })
+    componentDidMount() {
         this.getMeasures();
-        alert("Sea modificado una sucursal con exito")
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }
+    }
+
+    getMeasures() {
+        axios.get(`${Configuration.apiServer}/api/v1/admin/measures`, { headers: this.headers })
+            .then(response => {
+                if ('measures' in response.data) {
+                    this.setState({ measures: response.data.measures })
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
+
+    handleClickOpen = () => {
+        this.setState({
+            open: true,
+        });
+    };
+
+    handleClose() {
+        this.setState({ open: false });
+    };
+
+    handleOpenEditModal(params) {
+        this.setState({ openUpdated: true, currentMeasure: params })
+    }
 
 
+    handleSave(params) {
+        axios.post(`${Configuration.apiServer}/api/v1/admin/measures`, params, { headers: this.headers })
+            .then(response => {
+                if (response.data.status === 'ok') {
+                    this.getMeasures();
+                    this.setState({ open: false })
+                    alert("Sea creado una medida con exito")
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
 
-  render() {
+    handleUpdated(params) {
+        console.log()
+        axios.put(`${Configuration.apiServer}/api/v1/admin/measures/${this.state.currentMeasure.id}`, params, { headers: this.headers })
+            .then(response => {
+                if (response.data.status === 'ok') {
+                    this.setState({ openUpdated: false })
+                    this.getMeasures();
+                    alert("Sea modificado una sucursal con exito")
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
 
-    const measures = this.state.measures.map(measure => {
-      return (
-        <BasicCard
-          key={measure.id}
-          title={`${measure.width} X ${measure.height}`}
-          button={
-            <div className="dropdown">
-              <button className="btn btn-danger" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Opciones
-              </button>
-              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <button className="dropdown-item" onClick={() => { this.handleOpenEditModal(measure) }} style={{ marginRight: '5px' }}>Editar</button>
-                <button className="dropdown-item" onClick={() => { this.handleStatus(measure) }} style={{ marginRight: '5px' }}>Estatus</button>
-                <button className="dropdown-item" href="#">Eliminar</button>
-              </div>
-            </div>
-          }
-        >
+    handleStatus = async (measure) => {
+        try {
+            const { data } = await axios.put(`${Configuration.apiServer}/api/v1/admin/measures/${measure.id}/status`, {}, { headers: this.headers } );
+            if (data.status === "ok") {
+                this.getMeasures()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-        </BasicCard>
-      );
-    })
-    return (
-      <div className="container">
-        <div className="d-flex justify-content-between flex-wrap">
-          {measures}
-        </div>
-          <br />
-          <br />
+    render() {
 
-          <div className="d-flex justify-content-end flex-wrap">
-            <Fab color="secondary" aria-label="Add" onClick={this.handleClickOpen} >
-              <AddIcon />
-            </Fab>
-          
-        </div>
-        <ModalMeasures save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
-        <ModalMeasuresUpdated save={this.handleUpdated} record={this.state.currentMeasure} open={this.state.openUpdated} close={this.state.close} handleClose={this.handleClose} />
+        const measures = this.state.measures.map(measure => {
+            const options = [
+                { title: "Editar", onClick: () => this.handleOpenEditModal(measure) },
+                { title: `${measure.status ? "Desactivar" : "Activar"} medida`, onClick: () => this.handleStatus(measure) },
+            ]
+            return (
+                <BasicCard
+                    key={measure.id}
+                    title={`Medida`}
+                    description={`${measure.width} W X ${measure.height} H`}
+                    options={options}
+                />
+            );
+        })
+        return (
+            <MiniDrawer
+                title={<img style={{ height: '60px' }} src={require('../images/macrofoto logo .jpeg')} alt={"Logo"} />}
+                icon={<img style={{ height: '50px', marginRight: '32px', borderRadius: '50%' }} src={require('../images/descarga.jpeg')} alt={"Imagen usuario"} />}
+                main={
+                    <div style={{ marginTop: "120px" }} className="d-flex justify-content-between flex-wrap">
+                        <br />
+                        <div style={{ display: "flex", flexDirection: 'row', flexWrap: 'wrap', }} >
+                            {measures}
+                        </div>
+                        <ButtonAdd submit={this.handleClickOpen} />
+                        <ButtonAdd submit={this.handleClickOpen} />
 
-      </div>
-    );
-  }
+                        <ModalMeasures save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
+                        <ModalMeasuresUpdated save={this.handleUpdated} record={this.state.currentMeasure} open={this.state.openUpdated} close={this.state.close} handleClose={this.handleClose} />
+                    </div>
+                }
+            />
+        );
+    }
 }
 
 export default Measures;
