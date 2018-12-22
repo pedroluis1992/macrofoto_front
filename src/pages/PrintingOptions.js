@@ -25,27 +25,11 @@ class PrintingOptions extends Component {
         try {
             const response = await axios.get(`${Configuration.apiServer}/api/v1/admin/printing-options`, { headers: this.headers });
             if ('printingOptions' in response.data) {
-                console.log(response.data)
                 this.setState({ printingOptions: response.data.printingOptions })
             }
         } catch (error) {
             console.log(error)
         }
-    }
-
-    createPrintingOption = (option) => {
-        const options = [
-            { title: "Editar", onClick: () => this.setState({ open: true, edit: true, currentOption: option }) },
-            { title: `${option.status ? "Desactivar" : "Activar"} opción de impresión`, onClick: () => null },
-        ]
-        return (
-            <BasicCard
-                    key={option.id}
-                    title={option.name}
-                    icon={<Print style={{ height: '55%', width: '55%', color: 'white' }} />}
-                    options={options}
-            />
-        )
     }
 
     handleAdd = () => this.setState({ open: true })
@@ -55,7 +39,6 @@ class PrintingOptions extends Component {
     handleSave = async (option) => {
         try {
             const { data } = await axios.post(`${Configuration.apiServer}/api/v1/admin/printing-options`, option, { headers: this.headers});
-            console.log(data)
             if (data.status === 'ok') {
                 this.setState({ open: false })
                 this.getPrintOptions();
@@ -76,6 +59,33 @@ class PrintingOptions extends Component {
             console.log(error)
         }
     }
+
+    handleStatus = async (option) => {
+        try {
+            const { data } = await axios.put(`${Configuration.apiServer}/api/v1/admin/printing-options/${option.id}/status`, null, { headers: this.headers });
+            if (data.status = 'ok') {
+                this.getPrintOptions();
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    createPrintingOption = (option) => {
+        const options = [
+            { title: "Editar", onClick: () => this.setState({ open: true, edit: true, currentOption: option }) },
+            { title: `${option.status ? "Desactivar" : "Activar"} opción de impresión`, onClick: () => this.handleStatus(option) },
+        ]
+        return (
+            <BasicCard
+                    key={option.id}
+                    title={option.name}
+                    icon={<Print style={{ height: '55%', width: '55%', color: 'white' }} />}
+                    options={options}
+            />
+        )
+    }
+
     render() {
         const printingOptions = this.state.printingOptions.map(this.createPrintingOption)
         return(
