@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,10 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
-
+import Switch from '@material-ui/core/Switch';
 
 
 const DialogContent = withStyles(theme => ({
@@ -56,130 +53,100 @@ const DialogActions = withStyles(theme => ({
   },
 }))(MuiDialogActions);
 
+
 class CategoriesModal extends Component {
 
   constructor() {
     super()
-    this.state = { branches: {}, activeStep: 0, completed: {},}
+    this.state = { category: {} }
     this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeDescription = this.onChangeDescription.bind(this);
     this.setProp = this.setProp.bind(this);
     this.onChangeSave = this.onChangeSave.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   onChangeSave() {
-    this.props.save(this.state.branches)
+    this.props.save(this.state.category)
   }
 
   onChangeName(event) {
     this.setProp('name', event.target.value)
   }
 
-  onChangeAddress(event) {
-    this.setProp('address', event.target.value)
+  onChangeDescription(event) {
+    this.setProp('description', event.target.value)
   }
-
-  getSteps() {
-    return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-  }
-
-  handleNext = () => {
-    let activeStep;
-
-    if (this.isLastStep() && !this.allStepsCompleted()) {
-      // It's the last step, but not all steps have been completed,
-      // find the first step that has been completed
-      const steps = this.getSteps();
-      activeStep = steps.findIndex((step, i) => !(i in this.state.completed));
-    } else {
-      activeStep = this.state.activeStep + 1;
-    }
-    this.setState({
-      activeStep,
-    });
-  };
-
-  handleStep = step => () => {
-    this.setState({
-      activeStep: step,
-    });
-  };
 
   setProp(prop, value) {
-    let req = this.state.branches;
+    let req = this.state.category;
     req[prop] = value;
-    this.setState({ branches: req });
+    this.setState({ category: req });
   }
 
-  getStepContent(step) {
-    switch (step) {
-      case 0:
-        return( 
-          <div>
-            <TextField/>
-          </div>);
-      case 1:
-        return 'Step 2: What is an ad group anyways?';
-      case 2:
-        return 'Step 3: This is the bit I really care about!';
-      default:
-        return 'Unknown step';
-    }
-  }  
+  handleChange= name => event =>{
+    this.setProp('sell', event.target.checked)
+  };
 
-  render(){
-    const steps = this.getSteps();
-    const { activeStep } = this.state;
-    return(
+  render() {
+    console.log(this.state.category)
+    return (
       <div>
-      <Dialog
-        onClose={this.props.handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={this.props.open}
-        fullWidth
-      >
-        <Stepper nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => {
-            return (
-              <Step key={label}>
-                <StepButton
-                  onClick={this.handleStep(index)}
-                  completed={this.state.completed[index]}
-                >
-                  {label}
-                </StepButton>
-              </Step>
-            );
-          })}
-        </Stepper>
-        <div>
-          {this.state.activeStep === steps.length ? (
-            <div>
-              <Typography >All steps completed</Typography>
-              <Button onClick={this.handleReset}>Reset</Button>
-            </div>
-          ) : (
-            <div>
-              <Typography >{this.getStepContent(activeStep)}</Typography>
-              <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-           
-                >
-                  Back
-                </Button>
-                <Button variant="contained" color="primary" onClick={this.handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+        <Dialog
+          onClose={this.props.handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={this.props.open}
+          fullWidth
+        >
+          <DialogTitle id="customized-dialog-title" onClose={this.props.handleClose}>
+            Crear Sucursal
+          </DialogTitle>
+          <DialogContent>
+
+            <div className="d-flex justify-content-between">
+              <div style={{ width: '50%', marginLeft: '5%' }}>
+                <img style={{ width: '75', height: '80%', borderRadius: '50%' }} src={require('../../images/descarga.jpeg')} alt={"Imagen usuario"} />
               </div>
+              <div style={{ width: '50%' }}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Nombre"
+                  onChange={this.onChangeName}
+                  type="text"
+                  fullWidth
+                />
+                <br />
+                <TextField
+                  id="outlined-name"
+                  label="Descripcion"
+                  onChange={this.onChangeDescription}
+                  margin="normal"
+                  fullWidth
+                />
+                <Switch
+                  checked={this.state.checkedB}
+                  onChange={this.handleChange('venta')}
+                  value="venta"
+                  color="primary"
+                />
+              </div>
+
             </div>
-          )}
-        </div>
-      </Dialog>
-    </div>
+            <br />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.props.handleClose} color="primary">
+              Cerrar
+            </Button>
+            <Button onClick={this.onChangeSave} calor="primary">
+              Guardar
+              </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     );
   }
 }
-
 export default CategoriesModal;
