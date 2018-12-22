@@ -10,114 +10,116 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+
 const DialogContent = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing.unit * 2,
-  },
+    root: {
+        margin: 0,
+        padding: theme.spacing.unit * 2,
+    },
 }))(MuiDialogContent);
 const DialogTitle = withStyles(theme => ({
-  root: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing.unit * 2,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
-    color: theme.palette.grey[500],
-  },
+    root: {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        margin: 0,
+        padding: theme.spacing.unit * 2,
+    },
+    closeButton: {
+        position: 'absolute',
+        right: theme.spacing.unit,
+        top: theme.spacing.unit,
+        color: theme.palette.grey[500],
+    },
 }))(props => {
-  const { children, classes, onClose } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="Close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
+    const { children, classes, onClose } = props;
+    return (
+        <MuiDialogTitle disableTypography className={classes.root}>
+            <Typography variant="h6">{children}</Typography>
+            {onClose ? (
+                <IconButton aria-label="Close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                </IconButton>
+            ) : null}
+        </MuiDialogTitle>
+    );
 });
 
 
 const DialogActions = withStyles(theme => ({
-  root: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    margin: 0,
-    padding: theme.spacing.unit,
-  },
+    root: {
+        borderTop: `1px solid ${theme.palette.divider}`,
+        margin: 0,
+        padding: theme.spacing.unit,
+    },
 }))(MuiDialogActions);
 
 
 class ModalPrintingOptions extends Component {
-  constructor(){
-    super()
-    this.state = {width:0, height:0, measures:{}};
-    this.setProp = this.setProp.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeSave = this.onChangeSave.bind(this);
-  }
 
-  onChangeSave(){
-    this.props.save(this.state.measures)
-  }
+    state = {
+        name: "",
+        status: true,
+        id: null
+    }
 
-  onChangeName(event){
-    this.setProp('name', event.target.value)
-  }
+    componentWillReceiveProps({ edit, currentOption }) {
+        if (edit) {
+            const { id, name, status } = currentOption;
+            return this.setState({ name, id, status })
+        }   
+        this.setState({ name: "" })
+    }
 
-  setProp(prop, value) {
-    let req = this.state.measures;
-    req[prop] = value;
-    this.setState({request: req});
-  }
-  
-  render() {
+    onHandleSave = () => {
+        if (this.props.edit) {
+            return this.props.update(this.state)
+        }
+        this.props.save(this.state)
+    }
 
-    console.log(this.state.measures)
-    return (
-      <div>
-        <Dialog
-          onClose={this.props.handleClose}
-          aria-labelledby="customized-dialog-title"
-          open={this.props.open}
-          fullWidth
-        >
-          <DialogTitle id="customized-dialog-title" onClose={this.props.handleClose}>
-            Crear Opcion de Impresion
-          </DialogTitle>
-          <DialogContent>
-              <div style={{ width: '50%' }}>
-                <TextField
-                  autoFocus
-                  type="text"
-                  margin="dense"
-                  id="name"
-                  onChange={this.onChangeName}
-                  label="Nombre "
-                  fullWidth
-                />
-                <br />
-            </div>
-          </DialogContent>
-          <DialogActions>
+    onChangeName = event => this.setState({ name: event.target.value })
+
+    render() {
+        return (
             <div>
-            <Button onClick={this.props.handleClose} color="secondary">
-              Cerrar
-            </Button>
-            
-              <Button onClick={this.onChangeSave} calor="primary">
-                Guardar
-              </Button>
-              
+                <Dialog
+                    onClose={this.props.handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={this.props.open}
+                    fullWidth
+                >
+                    <DialogTitle id="customized-dialog-title" onClose={this.props.handleClose}>
+                        Nueva opción de impresión
+                    </DialogTitle>
+                    <DialogContent>
+
+                        <div style={{ display: 'flex',  flexDirection: 'column', alignItems: "flex-end" }} >
+                            <div style={{ width: '80%',}}>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Nombre"
+                                    type="email"
+                                    value={this.state.name}
+                                    onChange={this.onChangeName}
+                                    fullWidth
+                                />
+                                <br />
+                            </div>
+                        </div>
+                        <br />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.props.handleClose} color="primary">
+                            Cerrar
+                        </Button>
+                        <Button onClick={this.onHandleSave} calor="primary">
+                            Guardar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+        );
+    }
 }
 export default ModalPrintingOptions;

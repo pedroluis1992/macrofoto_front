@@ -15,7 +15,10 @@ const styles = theme => ({
     },
     content: {
         width: '60%',
-        height: '100%'
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flex: 1,
     },
     details: {
         height: '30%'
@@ -32,14 +35,14 @@ const styles = theme => ({
 
 
 class BasicCard extends Component {
-    
+
     onMenuClick = onClick => {
         if (this.menu) {
             this.menu.handleClose();
             onClick();
         }
     }
-    
+
     render() {
         const { classes, options } = this.props;
         return (
@@ -49,25 +52,25 @@ class BasicCard extends Component {
                         <div className={classes.content} >
                             <div className="d-flex justify-content-between">
 
-                                <CardContent style={{padding: '15px'}}>
+                                <CardContent style={{ padding: '15px' }}>
                                     <h6>
                                         {this.props.title}
                                     </h6>
-                                
+
                                     <Typography variant="subtitle2" color="textSecondary">
                                         {this.props.description}
                                     </Typography>
-                            
+
                                 </CardContent>
-                                <MenuTest ref={ref => this.menu = ref} >
-                                    {
-                                        options.map(option => (
-                                            <MenuItem onClick={ () => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
-                                            ))
-                                    }
-                                </MenuTest>
                             </div>
                         </div>
+                        <MenuTest ref={ref => this.menu = ref} >
+                            {
+                                options && options.map(option => (
+                                    <MenuItem onClick={() => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
+                                ))
+                            }
+                        </MenuTest>
                         <div style={{ width: '40%', height: '155px', backgroundColor: '#E0E0E0' }} className={classes.icon}>
                             {this.props.icon}
                         </div>
