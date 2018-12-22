@@ -17,6 +17,7 @@ class Products extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleCloseUpdated = this.handleCloseUpdated.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -63,7 +64,6 @@ class Products extends Component {
   };
 
   handleUpdate(params) {
-    console.log(params, "params")
     axios.put(`${Configuration.apiServer}/api/v1/admin/product-categories/${this.state.currentCategory.id}`, params, { headers: this.headers })
         .then(response => {
             console.log(response)
@@ -84,7 +84,7 @@ class Products extends Component {
   }
 
   handleOpenEditModal(params) {
-    this.setState({ openUpdated: true, currentBranch: params })
+    this.setState({ openUpdated: true, currentCategory: params })
   }
 
   openConfirmDialog(data) {
@@ -137,7 +137,7 @@ class Products extends Component {
               <ButtonAdd submit={this.handleSubmit} />
             </div>
             <CategoriesModal save={this.handleSave} open={this.state.open} close={this.state.close} handleClose={this.handleClose} />
-            <CategoriesUpdateModal save={this.handleSave} record={this.state.currentCategory} open={this.state.openUpdated} close={this.state.closeUpdated} handleClose={this.handleCloseUpdated}/>
+            <CategoriesUpdateModal save={this.handleUpdate} record={this.state.currentCategory} open={this.state.openUpdated} close={this.state.closeUpdated} handleClose={this.handleCloseUpdated}/>
             <AlertDialog
               ref={ref => this.dialog = ref}
               title="¿Estás seguro?"

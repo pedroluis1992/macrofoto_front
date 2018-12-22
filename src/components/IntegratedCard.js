@@ -108,11 +108,6 @@ class IntegratedCard extends Component {
                                 </Typography>
                             </CardContent>
                             <CardActions className={classes.actions} style={{ marginBottom: '10%' }} >
-                                {/* <div style={{ marginLeft: '30%' }}>
-                  <Button variant="contained" color="secondary" className={classes.button}>
-                    Opciones
-                    </Button>
-                </div> */}
                             </CardActions>
                         </div>
                         : null

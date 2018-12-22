@@ -125,12 +125,16 @@ class CategoriesUpdateModal extends Component {
                   margin="normal"
                   fullWidth
                 />
+                <div>
+                <label>¿Es para venta?</label>
                 <Switch
                   checked={this.state.checkedB}
                   onChange={this.handleChange('venta')}
                   value="venta"
                   color="primary"
                 />
+
+                </div>
               </div>
 
             </div>
