@@ -5,6 +5,8 @@ import Configuration from '../Configuration';
 import ModalUsers from '../components/ModalUsers';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import MiniDrawer from '../components/MiniDrawer';
+
 
 class BrachOffices extends Component {
   constructor() {
@@ -56,9 +58,12 @@ class BrachOffices extends Component {
     })
 
     return (
-      <div>
-        <div className="container">
-          <br />
+      <MiniDrawer
+      title={<img style={{ height: '60px' }} src={require('../images/macrofoto logo .jpeg')} alt={"Logo"} />}
+      icon={<img style={{ height: '50px', marginRight: '32px', borderRadius: '50%' }} src={require('../images/descarga.jpeg')} alt={"Imagen usuario"} />}
+      main={
+        <div style={{ marginTop: "15%" }} className="d-flex justify-content-between flex-wrap">
+        <br />
           <div className="justify-content-between">
             {users}
           </div>
@@ -67,9 +72,10 @@ class BrachOffices extends Component {
             <AddIcon />
           </Fab>
           </div>
+          <ModalUsers open={this.state.open} close={this.state.close} />
         </div>
-        <ModalUsers open={this.state.open} close={this.state.close} />
-      </div>
+        }
+      />
     );
   }
 }

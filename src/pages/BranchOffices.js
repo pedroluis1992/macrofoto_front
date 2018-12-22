@@ -68,7 +68,6 @@ class BranchOffices extends Component {
     }
 
     handleUpdate(params) {
-        console.log(params, "params")
         axios.put(`${Configuration.apiServer}/api/v1/admin/branches/${this.state.currentBranch.id}`, params, { headers: this.headers })
             .then(response => {
                 console.log(response)
@@ -106,7 +105,7 @@ class BranchOffices extends Component {
         const BranchOffices = this.state.branchOffices.map(branchOffice => {
             const options = [
                 { title: "Editar", onClick: () => this.handleOpenEditModal(branchOffice) },
-                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.openConfirmDialog(branchOffice) },
+                { title: `${branchOffice.status ? "Desactivar" : "Activar"} sucursal`, onClick: () => this.handleStatus(branchOffice) },
             ]
             return (
                 <BasicCard

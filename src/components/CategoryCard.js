@@ -4,6 +4,9 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import MenuTest from './FadeMenu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 const styles = ({
@@ -23,8 +26,14 @@ const styles = ({
 });
 
 class CategoryCard extends Component{
+  onMenuClick = onClick => {
+    if (this.menu) {
+        this.menu.handleClose();
+        onClick();
+    }
+}
 render(){
-
+  const { classes, options } = this.props;
   return (
     <div styles={styles.root}>
       <GridList spacing={40} cellHeight={180} >
@@ -36,9 +45,13 @@ render(){
               title={this.props.title}
               subtitle={<span>descripcion: {this.props.description}</span>}
               actionIcon={
-                <IconButton >
-                  <InfoIcon />
-                </IconButton>
+                <MenuTest ref={ref => this.menu = ref} >
+                  {
+                      options.map(option => (
+                          <MenuItem onClick={ () => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
+                          ))
+                  }
+                </MenuTest>
               }
             />
           </GridListTile>

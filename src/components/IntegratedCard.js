@@ -10,16 +10,19 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+import MenuTest from './FadeMenu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 
 const styles = theme => ({
   card: {
-    maxWidth: 350,
+    width: '300px',
+    margin: '32px',
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', 
+    paddingTop: '56.25%',
   },
   actions: {
     display: 'flex',
@@ -43,6 +46,13 @@ const styles = theme => ({
 });
 
 class IntegratedCard extends Component {
+  
+  onMenuClick = onClick => {
+    if (this.menu) {
+        this.menu.handleClose();
+        onClick();
+    }
+  }
 
   constructor() {
     super()
@@ -55,52 +65,59 @@ class IntegratedCard extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, options } = this.props;
     return (
-      <div className="container">
-        <Card className={classes.card}>
-          {
-            this.props.cardHeader === true ?
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="Recipe" className={classes.avatar}>
-                    {this.props.avatar}  
-                  </Avatar>
-                }
-                title={this.props.title}
-                subheader={this.props.subheader}
-              />
-              : null
-          }
-          {
-            this.props.cardImage === true ?
-              <CardMedia
-                className={classes.media}
-                image={this.props.image}
-                title={this.props.name}
-              />
+      <Card className={classes.card}>
+        {
+          this.props.cardHeader === true ?
+            <CardHeader
+              avatar={
+                <Avatar aria-label="Recipe" className={classes.avatar}>
+                  {this.props.avatar}
+                </Avatar>
+              }
+              action={
+                <MenuTest ref={ref => this.menu = ref} >
+                  {
+                    options.map(option => (
+                      <MenuItem onClick={() => this.onMenuClick(option.onClick)}>{option.title}</MenuItem>
+                    ))
+                  }
+                </MenuTest>
+              }
+              title={this.props.title}
+              subheader={this.props.subheader}
+            />
             : null
-          }
-          {
-            this.props.cardfooter === true ?
-              <div>
-                <CardContent>
-                  <Typography component="p">
-                    {this.props.content}
-                  </Typography>
-                </CardContent>
-                <CardActions className={classes.actions} style={{ marginBottom: '10%' }} >
-                  <div style={{ marginLeft: '30%' }}>
-                    <Button variant="contained" color="secondary" className={classes.button}>
-                      Opciones
+        }
+        {
+          this.props.cardImage === true ?
+            <CardMedia
+              className={classes.media}
+              image={this.props.image}
+              title={this.props.name}
+            />
+            : null
+        }
+        {
+          this.props.cardfooter === true ?
+            <div>
+              <CardContent>
+                <Typography component="p">
+                  {this.props.content}
+                </Typography>
+              </CardContent>
+              <CardActions className={classes.actions} style={{ marginBottom: '10%' }} >
+                {/* <div style={{ marginLeft: '30%' }}>
+                  <Button variant="contained" color="secondary" className={classes.button}>
+                    Opciones
                     </Button>
-                  </div>
-                </CardActions>
-              </div>
+                </div> */}
+              </CardActions>
+            </div>
             : null
-          }
-        </Card>
-      </div>
+        }
+      </Card>
     );
   }
 }
