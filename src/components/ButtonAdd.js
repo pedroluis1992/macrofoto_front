@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddIcon from '@material-ui/icons/Add';
+import { Button } from '@material-ui/core/'
 
 const styles = {
   add: {
@@ -23,9 +24,9 @@ class ButtonAdd extends Component {
   render() {
     return (
       <div>
-        <button className="d-flex align-items-center justify-content-center" style={styles.add} onClick={this.props.submit} >
+        <Button className="d-flex align-items-center justify-content-center" style={styles.add} onClick={this.props.submit} >
           <AddIcon />
-        </button>
+        </Button>
       </div>
     );
   }

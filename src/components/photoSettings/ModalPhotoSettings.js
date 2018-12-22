@@ -53,17 +53,18 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 
-class ModalPrintingOptions extends Component {
+class ModalPhotoSettings extends Component {
 
     state = {
         name: "",
         status: true,
+        frame: false,
         id: null
     }
 
-    componentWillReceiveProps({ edit, currentOption }) {
+    componentWillReceiveProps({ edit, currentPhotoSetting }) {
         if (edit) {
-            const { id, name, status } = currentOption;
+            const { id, name, status } = currentPhotoSetting;
             return this.setState({ name, id, status })
         }   
         this.setState({ name: "" })
@@ -88,7 +89,7 @@ class ModalPrintingOptions extends Component {
                     fullWidth
                 >
                     <DialogTitle id="customized-dialog-title" onClose={this.props.handleClose}>
-                        Nueva opción de impresión
+                        Nueva opción de foto
                     </DialogTitle>
                     <DialogContent>
 
@@ -122,4 +123,4 @@ class ModalPrintingOptions extends Component {
         );
     }
 }
-export default ModalPrintingOptions;
+export default ModalPhotoSettings;
